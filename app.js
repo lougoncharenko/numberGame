@@ -34,7 +34,27 @@ form.addEventListener('submit', checkGuess);
 function checkGuess(e){
     e.preventDefault();
     let userGuess=numberInput.value
-    console.log(userGuess)
+    let guesses=0;
+    // console.log(userGuess)
+    
+        if (userGuess==randomNumber){
+            lowOrHi.textContent="You've won'!"
+            
+        } else if(userGuess>randomNumber){
+            guesses++;
+            numberOfGuesses.textContent=guesses;
+            lastResult.textContent=`Last guess: ${userGuess}`;
+            lowOrHi.textContent="Your guess is too high!"
+            
+        } else if (userGuess<randomNumber){
+            guesses++;
+            numberOfGuesses.textContent=guesses;
+           
+             lastResult.textContent=`Last guess: ${userGuess}`;
+            lowOrHi.textContent="Your guess is too low!"
+           
+        }
+   
 }
 
 
