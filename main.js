@@ -1,8 +1,8 @@
 //game values
 let min=1;
-    max=10;
-    winningNum=2,
-    guessesLeft=3;
+    max=100;
+    winningNum=Math.floor(Math.random() * 100) + 1,
+    guessesLeft=10;
 
 
     //ui elements
@@ -30,16 +30,42 @@ const form=document.getElementById('game'),
             
            //check if won
         if (guess=== winningNum){
-            //disable inout
-            guessInput.disabled=true;
-            //change border green
-            guessInput.style.borderColor='green';
-            //let user know they've won
-            setMessage(`${winningNum} is correct, YOU WIN!`, 'green');
+            
+            gameover(true, `${winningNum} is correct, YOU WIN!`);
 
+        }else{
+            //wrong number
+            guessesLeft -= 1;
+
+            if (guessesLeft ===0){
+                gameover(false, `Game Over, the correct answer is ${winningNum}`);
+                
+            }else if (guess> winningNum){
+
+                setMessage(`${guess} is too high, ${guessesLeft} guesses left`, 'red');
+                guessInput.style.borderColor='red';
+
+            } else if (guess<winningNum) {
+                setMessage(`${guess} is too low, ${guessesLeft} guesses left`, 'red');
+                guessInput.style.borderColor='red';
+            }
         }
         
     })
+
+    //gameover
+
+    function gameover(won, msg){
+        let color;
+        won=== true? color='green': color='red';
+        guessInput.disabled=true;
+        //change border green
+        guessInput.style.borderColor=color;
+        //set message
+        setMessage(msg);
+        resetGame();
+
+    }
 
 
     //set message
@@ -47,4 +73,27 @@ const form=document.getElementById('game'),
         message.style.color=color;
         message.textContent=msg;
     }
+
+
+    //reset game
+    function resetGame(){
+    resetButton = document.createElement('button');
+    resetButton.textContent = 'Play Again';
+    form.append(resetButton);
+    resetButton.addEventListener('click', startOver);
+    }
+
+    function startOver(){
+        resetButton.parentNode.removeChild(resetButton);
+        randomNumber = Math.floor(Math.random() * 100) + 1;
+        setMessage(`Game has restarted! Play again!`, 'green')
+        guessInput.value=" ";
+ 
+    }
+    
+  
+  
+          
+  
+  
 
